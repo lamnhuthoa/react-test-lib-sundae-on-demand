@@ -17,12 +17,18 @@ const Options = ({ optionType }) => {
   useEffect(() => {
     // create an abortController to attach to network request
     const controller = new AbortController();
-    axios
-      .get(`http://localhost:3030/${optionType}`, { signal: controller.signal })
-      .then((response) => setItems(response.data))
-      .catch((error) => {
-        if (error.name !== "CanceledError") setError(true);
-      });
+    const fetchData = async () => {
+      await axios
+        .get(`http://localhost:3030/${optionType}`, {
+          signal: controller.signal,
+        })
+        .then((response) => setItems(response.data))
+        .catch((error) => {
+          if (error.name !== "CanceledError") setError(true);
+        });
+    };
+
+    fetchData();
 
     //abort axios call on component unmount
     return () => {
