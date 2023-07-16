@@ -1,13 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import SummaryForm from './pages/summary/SummaryForm';
+import Options from './pages/entry/Options';
+import OrderEntry from './pages/entry/OrderEntry';
+import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
+    {/* <SummaryForm /> */}
+    {/* <OrderEntry /> */}
   </React.StrictMode>
 );
 
