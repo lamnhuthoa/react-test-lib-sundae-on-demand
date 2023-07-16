@@ -1,7 +1,7 @@
 import React from "react";
 import Col from "react-bootstrap/Col";
 import { useOrderDetails } from "../../contexts/OrderDetails";
-import { Form, Row } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 const ToppingOption = ({ name, imagePath }) => {
   const { updateItemCount } = useOrderDetails();

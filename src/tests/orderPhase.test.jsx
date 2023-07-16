@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 
 import App from "../App";
 
-test("order phases fro happy path", async () => {
+test("order phases for happy path", async () => {
   const user = userEvent.setup();
   //render app
   render(<App />);
@@ -27,7 +27,7 @@ test("order phases fro happy path", async () => {
 
   //find and click order button
   const orderSummaryButton = screen.getByRole("button", {
-    name: /order summary/i,
+    name: /order sundae!/i,
   });
   await user.click(orderSummaryButton);
 
@@ -55,7 +55,7 @@ test("order phases fro happy path", async () => {
 
   //accept terms and conditions and click button to confirm order
   const tcCheckbox = screen.getByRole("checkbox", {
-    name: /terms and conditions/i,
+    name: /terms and condition/i,
   });
   await user.click(tcCheckbox);
 
@@ -97,3 +97,35 @@ test("order phases fro happy path", async () => {
   //do we need to await anything to avoid test errors?
   //   unmount();
 });
+
+test("Toppings header is not on summary page if no toppings ordered", async () => {
+  const user = userEvent.setup();
+
+  //render App
+  render(<App />);
+
+  //add ice cream scoops but no toppings
+  const vanillaInput = await screen.findByRole("spinbutton", {
+    name: "Vanilla",
+  });
+  await user.clear(vanillaInput);
+  await user.type(vanillaInput, "1");
+
+  const chocolateInput = screen.getByRole("spinbutton", { name: "Chocolate" });
+  await user.clear(chocolateInput);
+  await user.type(chocolateInput, "2");
+
+  //find and click order summary button
+  const orderSummaryButton = screen.getByRole("button", {
+    name: /order sundae/i,
+  });
+  await user.click(orderSummaryButton);
+
+  const scoopsHeading = screen.getByRole("heading", { name: "Scoops: $6.00" });
+  expect(scoopsHeading).toBeInTheDocument();
+
+  const toppingsHeadding = screen.queryByRole("heading", { name: /toppings/i });
+  expect(toppingsHeadding).not.toBeInTheDocument();
+});
+
+test("Toppings header is not on summary page if toppings ordered, then removed", async () => {});
